@@ -244,7 +244,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
 
       case MotionEvent.ACTION_UP:
         // Register a click only if the touch started and ended on the same URL.
-        if (!wasLongPressRegistered && touchStartedOverAClickableSpan && clickableSpanUnderTouch == clickableSpanUnderTouchOnActionDown) {
+        if (!wasLongPressRegistered && clickableSpanUnderTouch == clickableSpanUnderTouchOnActionDown) {
           dispatchUrlClick(textView, clickableSpanUnderTouch);
         }
         cleanupOnTouchUp(textView);
@@ -384,11 +384,14 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
   }
 
   protected void dispatchUrlClick(TextView textView, ClickableSpan clickableSpan) {
-    ClickableSpanWithText clickableSpanWithText = ClickableSpanWithText.ofSpan(textView, clickableSpan);
-    boolean handled = onLinkClickListener != null && onLinkClickListener.onClick(textView, clickableSpanWithText.text());
-
-    if (!handled) {
-      // Let Android handle this click.
+    if(clickableSpan != null){
+      ClickableSpanWithText clickableSpanWithText=ClickableSpanWithText.ofSpan(textView,clickableSpan);
+      boolean handled=onLinkClickListener!=null&&onLinkClickListener.onClick(textView,clickableSpanWithText.text());
+      if (!handled) {
+        // Let Android handle this click.
+        clickableSpanWithText.span().onClick(textView);
+      }
+    }else{
       clickableSpanWithText.span().onClick(textView);
     }
   }
