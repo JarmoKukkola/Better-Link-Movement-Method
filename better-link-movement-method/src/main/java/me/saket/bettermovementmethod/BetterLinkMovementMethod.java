@@ -386,7 +386,7 @@ public class BetterLinkMovementMethod extends LinkMovementMethod {
   protected void dispatchUrlClick(TextView textView, ClickableSpan clickableSpan) {
     if(clickableSpan != null){
       if(onLinkClickListener!=null){
-        onLinkClickListener.onClick(textView,null)
+        onLinkClickListener.onClick(textView,null);
       }
     }else{
       ClickableSpanWithText clickableSpanWithText=ClickableSpanWithText.ofSpan(textView,clickableSpan);
